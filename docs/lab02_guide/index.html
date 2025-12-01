@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KKU Campus Guide - แนะนำสถานที่ภายในมหาวิทยาลัยขอนแก่น</title>
+  <style>
+    :root{
+      --accent:#A73B24;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --bg:#faf8f6;
+      --max-width:1100px;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Kanit", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:#0f172a;
+      line-height:1.5;
+      -webkit-font-smoothing:antialiased;
+      padding:24px;
+      display:flex;
+      justify-content:center;
+    }
+    .site{width:100%;max-width:var(--max-width)}
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    canvas#logoCanvas{width:56px;height:56px;display:block}
+    @keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-8px)}}
+    h1{font-size:1.25rem;margin:0;text-align:left}
+    .meta{font-size:.95rem;color:var(--muted)}
+
+    nav{
+      background:var(--card);
+      border-radius:10px;
+      padding:12px 14px;
+      box-shadow:0 2px 6px rgba(11,20,40,.06);
+      margin-bottom:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    nav a{color:var(--accent);text-decoration:none;margin-right:12px}
+    nav button{
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding:8px 16px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:.95rem;
+      font-weight:500;
+      transition:background .3s ease;
+    }
+    nav button:hover{background:#8b3219}
+
+    main{display:grid;grid-template-columns:1fr;gap:18px}
+
+    .hero{
+      background:linear-gradient(90deg,rgba(167,59,36,.08),rgba(167,59,36,.05));
+      border-radius:12px;padding:18px;display:flex;gap:16px;align-items:center;
+    }
+    .hero p{margin:0;color:var(--muted)}
+
+    .places{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    article.place{
+      background:var(--card);
+      border-radius:10px;padding:14px;
+      box-shadow:0 6px 18px rgba(10,20,40,.06);
+      display:flex;flex-direction:column;gap:12px;
+    }
+    article.place header{display:flex;align-items:center;justify-content:space-between}
+    article.place h2{margin:0;font-size:1.05rem}
+    .desc{color:var(--muted);font-size:.95rem}
+
+    .gallery{display:flex;gap:8px}
+    .gallery figure{margin:0;flex:1;background:#eef4fb;border-radius:8px;overflow:hidden}
+    .gallery img{width:100%;height:160px;object-fit:cover;display:block}
+    .gallery figcaption{padding:8px 10px;font-size:.85rem;color:var(--muted)}
+
+    .hero-img{width:160px;height:100px;object-fit:cover;border-radius:8px}
+
+    .contact-section{
+      background:var(--card);
+      border-radius:12px;
+      padding:24px;
+      box-shadow:0 6px 18px rgba(10,20,40,.06);
+      margin-top:18px;
+    }
+    .contact-section h2{margin-top:0;color:var(--accent)}
+    .form-group{margin-bottom:16px}
+    .form-group label{display:block;margin-bottom:6px;font-weight:500;color:#0f172a}
+    .form-group input,
+    .form-group textarea{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid #e5e7eb;
+      border-radius:6px;
+      font-family:inherit;
+      font-size:.95rem;
+      transition:border .3s ease,box-shadow .3s ease;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(167,59,36,.1);
+    }
+    .form-group textarea{resize:vertical;min-height:120px}
+    .submit-btn{
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding:12px 24px;
+      border-radius:6px;
+      font-size:.95rem;
+      font-weight:500;
+      cursor:pointer;
+      transition:background .3s ease;
+    }
+    .submit-btn:hover{background:#8b3219}
+
+    footer{margin-top:14px;padding:12px;color:var(--muted);font-size:.9rem}
+
+    /* Responsive */
+    @media (max-width:1024px){
+      body{padding:16px}
+      header{flex-direction:column;text-align:center;gap:10px}
+      .brand{justify-content:center}
+      nav{padding:10px;text-align:center}
+      nav a{margin-right:8px;font-size:.9rem}
+      .places{grid-template-columns:1fr}
+      .gallery img{height:140px}
+      .hero-img{width:140px;height:90px}
+    }
+    @media (max-width:768px){
+      body{padding:14px}
+      h1{font-size:1.1rem}
+      .meta{font-size:.9rem}
+      nav{padding:10px 8px}
+      nav a{display:inline-block;margin-right:6px;font-size:.85rem}
+      article.place h2{font-size:1rem}
+      .gallery{gap:6px}
+      .gallery img{height:120px}
+      .hero-img{width:120px;height:75px}
+    }
+    @media (max-width:600px){
+      body{padding:12px}
+      header{flex-direction:column;gap:8px;text-align:center;align-items:center}
+      .brand{flex-direction:column;align-items:center;gap:8px}
+      .brand > div{display:flex;flex-direction:column;align-items:center}
+      .logo{width:48px;height:48px}
+      h1{font-size:.95rem;text-align:center}
+      .meta{font-size:.85rem;text-align:center}
+      nav{padding:8px;border-radius:8px}
+      nav a{display:block;margin-right:0;margin-bottom:6px;font-size:.8rem;padding:4px 0}
+      nav a:last-child{margin-bottom:0}
+      .hero{flex-direction:column;padding:14px;gap:12px}
+      .hero img{width:100%;max-width:140px;height:80px}
+      .hero h2{font-size:1rem}
+      .hero p{font-size:.9rem}
+      article.place{padding:10px;gap:10px}
+      article.place h2{font-size:.95rem}
+      article.place header{flex-direction:column;align-items:flex-start}
+      .desc{font-size:.85rem}
+      .gallery{flex-direction:column;gap:6px}
+      .gallery figure{flex:none}
+      .gallery img{height:150px;width:100%}
+      .gallery figcaption{font-size:.75rem;padding:6px 8px}
+      footer{font-size:.8rem;padding:8px}
+      .hero-img{width:100px;height:70px}
+    }
+    @media (max-width:460px){
+      body{padding:10px}
+      .logo{width:44px;height:44px}
+      h1{font-size:.85rem}
+      .meta{font-size:.75rem}
+      nav{padding:6px;margin-bottom:12px}
+      nav a{font-size:.75rem;padding:3px 0}
+      .hero{padding:10px}
+      .hero img{max-width:120px;height:70px}
+      .hero h2{font-size:.9rem}
+      .hero p{font-size:.8rem}
+      article.place{padding:8px}
+      article.place h2{font-size:.85rem}
+      .desc{font-size:.8rem}
+      .gallery img{height:140px}
+      .gallery figcaption{font-size:.7rem}
+      footer{font-size:.7rem}
+      .hero-img{width:90px;height:60px}
+    }
+  </style>
+</head>
+<body>
+  <div class="site">
+    <header>
+      <div class="brand">
+        <div class="logo">
+          <canvas id="logoCanvas"></canvas>
+        </div>
+        <div>
+          <h1>KKU Campus Guide</h1>
+          <div class="meta">รหัสนักศึกษา: <strong>6633800017-6</strong> &nbsp;|&nbsp; ชื่อ-สกุล: <strong>นราวิชญ์ คำปุทา</strong></div>
+        </div>
+      </div>
+      <div class="meta">มหาวิทยาลัยขอนแก่น</div>
+    </header>
+
+    <nav>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <a href="#library">สำนักหอสมุด</a>
+        <a href="#auditorium">ศูนย์ประชุมอเนกประสงค์กาญจนาภิเษก</a>
+        <a href="#student-center">สนามกีฬากลางและสระว่ายน้ำชนเห็นชอบ</a>
+        <a href="#botanical">อุทยานเกษตร</a>
+      </div>
+      <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">แนะนำสถานที่ใหม่</button>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div style="flex:1">
+          <h2>ยินดีต้อนรับสู่ KKU Campus Guide</h2>
+          <p>เว็บนี้รวบรวมสถานที่ที่น่าสนใจภายในมหาวิทยาลัยขอนแก่น พร้อมคำอธิบายและภาพประกอบ เพื่อให้ผู้มาเยือนหรือเพื่อนนักศึกษาค้นหาสถานที่ได้ง่ายขึ้น</p>
+        </div>
+        <img src="images\09ประตูขอนแก่น.jpg" alt="KKU campus" class="hero-img">
+      </section>
+
+      <section class="places">
+        <article id="library" class="place">
+          <header>
+            <h2>สำนักหอสมุด มหาวิทยาลัยขอนแก่น</h2>
+          </header>
+          <p class="desc">หอสมุดกลางเป็นศูนย์กลางด้านการเรียนรู้ของมหาวิทยาลัย มีหนังสือ วิจัย และพื้นที่อ่านหนังสือที่ทันสมัย เหมาะกับการค้นคว้าและทำงานกลุ่ม</p>
+          <div class="gallery">
+            <figure>
+              <img src="images\01Central Library.jpeg" alt="library interior">
+              <figcaption>สำนักหอสมุด มหาวิทยาลัยขอนแก่น</figcaption>
+            </figure>
+            <figure>
+              <img src="images\02work space.jpg" alt="students studying in library">
+              <figcaption>พื้นที่เงียบสำหรับการศึกษาค้นคว้า</figcaption>
+            </figure>
+          </div>
+        </article>
+
+        <article id="auditorium" class="place">
+          <header>
+            <h2>ศูนย์ประชุมอเนกประสงค์กาญจนาภิเษก มหาวิทยาลัยขอนแก่น</h2>
+          </header>
+          <p class="desc">หอประชุมของมหาวิทยาลัยเป็นสถานที่จัดกิจกรรมใหญ่ เช่น พิธีจบการศึกษา การบรรยายพิเศษ และการแสดงทางวัฒนธรรม</p>
+          <div class="gallery">
+            <figure>
+              <img src="images\03Auditorium.jpg" alt="auditorium interior">
+              <figcaption>ฮอลล์ขนาดใหญ่สำหรับการประชุมและงานอีเวนต์</figcaption>
+            </figure>
+            <figure>
+              <img src="images\04inAuditorium.jpg" alt="stage and audience">
+              <figcaption>เวทีและที่นั่งผู้ชม</figcaption>
+            </figure>
+          </div>
+        </article>
+
+        <article id="student-center" class="place">
+          <header>
+            <h2>สนามกีฬากลางและสระว่ายน้ำชนเห็นชอบ มหาวิทยาลัยขอนแก่น</h2>
+          </header>
+          <p class="desc">ศูนย์กลางการกีฬาของมหาวิทยาลัย ใช้สำหรับจัดกิจกรรมกีฬาและการแข่งขันต่างๆ ทั้งในร่มและกลางแจ้ง</p>
+          <div class="gallery">
+            <figure>
+              <img src="images\05สนาม-อบจ.ขอนแก่น.jpg" alt="student activity building">
+              <figcaption>พื้นที่กิจกรรมนักศึกษา</figcaption>
+            </figure>
+            <figure>
+              <img src="images\06สระว่ายน้ำชนเห็นชอบ มหาวิทยาลัยขอนแก่น.jpg" alt="students hanging out">
+              <figcaption>สระว่ายน้ำชนเห็นชอบ</figcaption>
+            </figure>
+          </div>
+        </article>
+
+        <article id="botanical" class="place">
+          <header>
+            <h2>อุทยานเกษตร มหาวิทยาลัยขอนแก่น</h2>
+          </header>
+          <p class="desc">อุทยานเกษตรภายในมหาวิทยาลัยเป็นพื้นที่สีเขียวที่เหมาะสำหรับการพักผ่อน เดินศึกษา และทำกิจกรรมกลางแจ้ง</p>
+          <div class="gallery">
+            <figure>
+              <img src="images\07cafe.jpg" alt="botanical garden path">
+              <figcaption>Grand Opening Agro Outlet</figcaption>
+            </figure>
+            <figure>
+              <img src="images\08run.jpg" alt="green area for relaxation">
+              <figcaption>เส้นทางเดินและต้นไม้หลากหลายชนิด</figcaption>
+            </figure>
+          </div>
+        </article>
+      </section>
+
+      <section id="contact" class="contact-section">
+        <h2>แนะนำสถานที่ใหม่</h2>
+        <p class="desc">หากคุณต้องการแนะนำสถานที่น่าสนใจในมหาวิทยาลัยขอนแก่น กรุณากรอกแบบฟอร์มด้านล่าง เราจะรวมข้อมูลของคุณในเว็บไซต์นี้</p>
+        <form action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="ab1455dd-9159-4e53-9558-a78a40d6a54f">
+          
+          <div class="form-group">
+            <label for="place-name">ชื่อสถานที่</label>
+            <input type="text" id="place-name" name="place_name" placeholder="เช่น ศูนย์กีฬา ห้องเรียนใหม่" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="description">รายละเอียด</label>
+            <textarea id="description" name="description" placeholder="อธิบายรายละเอียดเกี่ยวกับสถานที่นี้ เช่น ตำแหน่ง สิ่งอำนวยความสะดวก ฯลฯ" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="image-url">URL ของภาพ</label>
+            <input type="url" id="image-url" name="image_url" placeholder="https://example.com/image.jpg" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-name">ชื่อของคุณ</label>
+            <input type="text" id="contact-name" name="contact_name" placeholder="ชื่อ-สกุล" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-email">อีเมล</label>
+            <input type="email" id="contact-email" name="contact_email" placeholder="your.email@example.com" required>
+          </div>
+          
+          <button type="submit" class="submit-btn">ส่งแนะนำ</button>
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- วิธีทดสอบ: เปิดผ่านเบราว์เซอร์โดยดับเบิลคลิกที่ไฟล์ `index.html` หรือรันเซิร์ฟเวอร์ท้องถิ่น -->
+  
+  <script>
+    // Canvas Logo - K Letter with Rainbow Animation
+    const canvas = document.getElementById('logoCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    canvas.width = 56;
+    canvas.height = 56;
+    
+    let animationTime = 0;
+    
+    function drawRainbowLogo() {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      
+      // Clear canvas with gradient
+      const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      bgGradient.addColorStop(0, '#faf8f6');
+      bgGradient.addColorStop(1, '#f0e8e0');
+      ctx.fillStyle = bgGradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      
+      // Pulsing scale animation
+      const pulse = 1 + Math.sin(animationTime * 0.08) * 0.15;
+      ctx.scale(pulse, pulse);
+      
+      // Create rainbow colors
+      const rainbowColors = [
+        '#FF0000', // Red
+        '#FF7F00', // Orange
+        '#FFFF00', // Yellow
+        '#00FF00', // Green
+        '#0000FF', // Blue
+        '#4B0082', // Indigo
+        '#9400D3'  // Violet
+      ];
+      
+      // Calculate hue based on animation time
+      const hueOffset = (animationTime * 2) % 360;
+      
+      // Create linear gradient with rainbow colors
+      const rainbowGradient = ctx.createLinearGradient(-20, -28, 20, 28);
+      for (let i = 0; i < rainbowColors.length; i++) {
+        const position = (i / (rainbowColors.length - 1) + hueOffset / 360) % 1;
+        rainbowGradient.addColorStop(position, rainbowColors[i % rainbowColors.length]);
+      }
+      
+      // Draw outer glow effect
+      ctx.shadowColor = 'rgba(255, 0, 0, 0.6)';
+      ctx.shadowBlur = 8 + Math.sin(animationTime * 0.1) * 3;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      
+      // Draw K letter with rainbow gradient
+      ctx.fillStyle = rainbowGradient;
+      ctx.font = 'bold 48px Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('K', 0, 0);
+      
+      // Draw outline with slight rotation
+      const rotation = Math.sin(animationTime * 0.05) * 0.1;
+      ctx.rotate(rotation);
+      
+      ctx.strokeStyle = rainbowGradient;
+      ctx.lineWidth = 1.5;
+      ctx.globalAlpha = 0.4;
+      ctx.strokeText('K', 0, 0);
+      ctx.globalAlpha = 1;
+      
+      ctx.restore();
+      
+      animationTime++;
+      requestAnimationFrame(drawRainbowLogo);
+    }
+    
+    // Start animation
+    drawRainbowLogo();
+  </script>
+</body>
+</html>
