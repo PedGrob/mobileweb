@@ -1,6 +1,7 @@
 export class StudentManager {
     constructor() {
         this.students = [];
+        this.loadFromLocalStorage();
     }
     addStudent(student) {
         this.students.push(student);
@@ -13,7 +14,12 @@ export class StudentManager {
         return this.students.find(s => s.id === id);
     }
     findStudentsByName(name) {
-        return this.students.filter(s => s.name.toLowerCase().includes(name.toLowerCase()));
+        const searchName = name.toLowerCase();
+        return this.students.filter(s => s.first_name.toLowerCase().includes(searchName) ||
+            s.last_name.toLowerCase().includes(searchName));
+    }
+    findStudentByEmail(email) {
+        return this.students.find(s => s.email.toLowerCase() === email.toLowerCase());
     }
     findStudentsByMajor(major) {
         return this.students.filter(s => s.major.toLowerCase().includes(major.toLowerCase()));
