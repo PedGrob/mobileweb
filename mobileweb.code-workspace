@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "apps/lab01_react"
+		},
+		{
+			"path": "apps/lab01_vue"
+		}
+	],
+	"settings": {
+		"webnative.buildForProduction": false
+	}
+}
