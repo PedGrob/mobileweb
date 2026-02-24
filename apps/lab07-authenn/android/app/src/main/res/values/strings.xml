@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">lab07-authenn</string>
+    <string name="title_activity_main">lab07-authenn</string>
+    <string name="package_name">cpkku.cheychaya.lab07</string>
+    <string name="custom_url_scheme">cpkku.cheychaya.lab07</string>
+</resources>

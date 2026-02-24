@@ -1,0 +1,7 @@
+{
+  "name": "lab07-authenn",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
