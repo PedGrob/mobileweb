@@ -8,6 +8,7 @@ export class ArmWorkoutEngine {
   private valley = 0;
   private phase: "WAIT_UP" | "WAIT_DOWN" = "WAIT_UP";
   private targetReps: number = 0;
+  private startTime: number = 0;
 
   state: WorkoutState = {
     status: "IDLE",
@@ -18,6 +19,7 @@ export class ArmWorkoutEngine {
       repsBad: 0,
       score: 0,
       avgRepMs: 0,
+      avgSpeed: 0,
     },
   };
 
@@ -37,6 +39,7 @@ export class ArmWorkoutEngine {
   }
 
   start(target: number = 0) {
+    this.startTime = Date.now();
     this.targetReps = target;
     this.state = {
       status: "RUNNING",
@@ -47,6 +50,7 @@ export class ArmWorkoutEngine {
         repsBad: 0,
         score: 0,
         avgRepMs: 0,
+        avgSpeed: 0,
       },
     };
     this.phase = "WAIT_UP";
@@ -64,11 +68,11 @@ export class ArmWorkoutEngine {
     const y = sample.ay;
     const side = Math.abs(sample.ax) + Math.abs(sample.az);
 
-    const UP_TH = 1.0;
-    const DOWN_TH = -1.5;
+    const UP_TH = 1.1;
+    const DOWN_TH = -1.0;
     const MIN_ROM = 1.5;
-    const MIN_MS = 700;
-    const MAX_MS = 6000;
+    const MIN_MS = 600;
+    const MAX_MS = 5000;
 
     if (this.phase === "WAIT_UP") {
       this.peak = Math.max(this.peak, y);
@@ -107,11 +111,16 @@ export class ArmWorkoutEngine {
           this.state.repDisplay++;
           this.state.stats.repsOk++;
           this.state.stats.score++;
+
+          const totalElapsedSec = (Date.now() - this.startTime) / 1000;
+          this.state.stats.avgSpeed = totalElapsedSec / this.state.repDisplay;
+
           this.state.stats.avgRepMs =
             Math.round((this.state.stats.avgRepMs + repMs) / 2);
+          
           if (this.targetReps > 0 && this.state.repDisplay >= this.targetReps) {
-            this.state.stats.lastMessage = "ครบกำหนดแล้ว! เยี่ยมมาก";
             this.state.status = "STOPPED";
+            msg = "ครบกำหนดแล้ว! เยี่ยมมาก"; 
           }
         } else {
           this.state.stats.repsBad++;

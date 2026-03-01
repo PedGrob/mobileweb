@@ -1,4 +1,4 @@
-import { Haptics, NotificationType } from "@capacitor/haptics";
+import { Haptics, NotificationType ,ImpactStyle} from "@capacitor/haptics";
 
 export class HapticsService {
   async success() {
@@ -7,5 +7,9 @@ export class HapticsService {
   
   async warning() {
     await Haptics.notification({ type: NotificationType.Warning });
+  }
+
+  async impact() {
+    await Haptics.impact({ style: ImpactStyle.Medium });
   }
 }

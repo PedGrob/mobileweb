@@ -32,7 +32,44 @@ export const HomePage: React.FC = () => {
     }
   }, [state?.status, motion]);
 
+  useEffect(() => {
+    if (state?.status === "RUNNING" && state?.repDisplay && state.repDisplay > 0) {
+      tts.speak(state.repDisplay.toString());
+
+      haptic.warning();
+    }
+  }, [state?.repDisplay, state?.status, tts, haptic]);
+
+  useEffect(() => {
+    const msg = state?.stats.lastMessage;
+    
+    if (state?.status === "RUNNING" && msg && msg !== "OK") {
+
+      setErrorCount(prev => prev + 1);
+      
+      let textToSpeak = msg;
+
+      const lowerMsg = msg.toLowerCase();
+      if (lowerMsg.includes("fast")) textToSpeak = "เร็วเกินไป";
+      else if (lowerMsg.includes("slow")) textToSpeak = "ช้าเกินไป";
+      else if (lowerMsg.includes("low")) textToSpeak = "ยกแขนต่ำเกินไป";
+      else if (lowerMsg.includes("vertical") || lowerMsg.includes("angle")) textToSpeak = "กรุณายกแนวตั้ง";
+
+      tts.speak(textToSpeak);
+
+    }
+  }, [state?.stats.lastMessage, state?.status, tts]);
+
+  useEffect(() => {
+    const isSuccess = state?.status === "STOPPED" && (state?.repDisplay ?? 0) >= targetReps && targetReps > 0;
+    
+    if (isSuccess) {
+      tts.speak(`เก่งมาก ทำได้ตั้ง ${state?.repDisplay} ครั้งเลย`);
+    }
+  }, [state?.status, state?.repDisplay, targetReps, tts]);
+
   const start = async () => {
+    setErrorCount(0);
     try {
       await tts.speak(`เริ่มกายบริหารแขน ${targetReps} ครั้ง ยกขึ้นจนสุดแล้วลดลง`);
     } catch (e) {
@@ -49,11 +86,11 @@ export const HomePage: React.FC = () => {
     engine.stop();
   };
 
-
-  // ตัวแปรเช็คว่าระบบกำลังทำงานอยู่หรือไม่
   const isRunning = state?.status === "RUNNING";
 
   const isSuccess = state?.status === "STOPPED" && (state?.repDisplay ?? 0) >= targetReps && targetReps > 0;
+
+  const [errorCount, setErrorCount] = useState<number>(0);
 
 return (
     <IonPage>
@@ -71,11 +108,10 @@ return (
         </IonToolbar>
       </IonHeader>
 
-      {/* --- ปรับแต่ง IonContent ให้เปลี่ยนสีเมื่อ isSuccess เป็น true --- */}
       <IonContent 
         className="ion-padding ion-text-center"
         style={{ 
-          '--background': isSuccess ? '#008000' : '',
+          '--background': isSuccess ? '#139e13' : '',
           transition: 'background 0.3s ease-in-out'
         }}
       >
@@ -116,12 +152,9 @@ return (
           </div>
         )}
 
-        <IonCard>
+        <IonCard color="light" style={{ borderRadius: '15px' }}>
           <IonCardContent>
-            <h2>
-              คะแนนรวม: <IonText color="success"><b>{state?.stats.score ?? 0}</b></IonText>
-            </h2>
-            <div style={{ marginTop: '15px' }}>
+            <div style={{ minHeight: '60px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <IonText color={state?.stats.lastMessage === "OK" ? "success" : "danger"}>
                 <h3>{state?.stats.lastMessage || "กด Start เพื่อเริ่ม"}</h3>
               </IonText>
@@ -129,8 +162,48 @@ return (
           </IonCardContent>
         </IonCard>
 
+        {isSuccess && (
+          <IonCard color="light" style={{ borderRadius: '15px' }}>
+            <IonCardContent>
+              <IonText color="dark">
+                <h2 style={{ fontWeight: 'bold', marginBottom: '15px', textAlign: 'center' }}>📊 สรุปผลการฝึก</h2>
+              </IonText>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px', textAlign: 'center' }}>
+                <div>
+                  <IonText color="medium"><small>เป้าหมาย</small></IonText>
+                  <h3 style={{ margin: 0 }}>{targetReps}</h3>
+                </div>
+                <div>
+                  <IonText color="success"><small>รอบที่ถูก</small></IonText>
+                  <h3 style={{ margin: 0 }}>{state?.repDisplay}</h3>
+                </div>
+                <div>
+                  <IonText color="danger"><small>รอบที่ผิด</small></IonText>
+                  <h3 style={{ margin: 0 }}>{errorCount}</h3>
+                </div>
+                <div>
+                  <IonText color="danger"><small>คะแนนสะสม</small></IonText>
+                  <h3 style={{ margin: 0 }}>{state?.stats.score}</h3>
+                </div>
+                <div>
+                  <IonText color="tertiary"><small>ความแม่นยำ</small></IonText>
+                  <h3 style={{ margin: 0 }}>
+                    {targetReps > 0 ? Math.round(((state?.repDisplay ?? 0) / targetReps) * 100) : 0}%
+                  </h3>
+                </div>
+                <div>
+                  <IonText color="warning"><small>เวลาเฉลี่ย/ครั้ง</small></IonText>
+                  <h3 style={{ margin: 0 }}>
+                    {state?.stats.avgSpeed ? state.stats.avgSpeed.toFixed(1) : "0.0"}s
+                  </h3>
+                </div>
+              </div>
+            </IonCardContent>
+          </IonCard>
+        )}
+
         <div style={{ marginTop: '30px' }}>
-          {/* เปลี่ยนข้อความปุ่มถ้าทำสำเร็จแล้วให้เป็น "เริ่มใหม่" */}
           <IonButton expand="block" shape="round" size="large" onClick={start} disabled={isRunning}>
             {isSuccess ? "เริ่มใหม่อีกครั้ง" : "Start"}
           </IonButton>

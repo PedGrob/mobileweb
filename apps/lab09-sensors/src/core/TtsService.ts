@@ -6,7 +6,7 @@ export class TtsService {
       await TextToSpeech.speak({
         text: text,
         lang: 'th-TH', 
-        rate: 0.9,   // ลองปรับช้าลงนิดนึงเพื่อให้ฟังชัด
+        rate: 0.9,  
         pitch: 1.0,
         volume: 1.0,
         category: 'ambient',

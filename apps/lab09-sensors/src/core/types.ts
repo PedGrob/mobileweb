@@ -12,10 +12,12 @@ export interface WorkoutStats {
   score: number;
   avgRepMs: number;
   lastMessage?: string;
+  avgSpeed: number;
 }
 
 export interface WorkoutState {
   status: "IDLE" | "CALIBRATING" | "RUNNING" | "STOPPED";
   repDisplay: number;
   stats: WorkoutStats;
+  avgSpeed?: number;
 }
